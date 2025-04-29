@@ -1,7 +1,7 @@
 version: 0.2
 env:
   variables:
-    ECR_REPO_NAME: <ご自身のECRリポジトリ名を記載。両側の角カッコを含め削除してください。>
+    ECR_REPO_NAME: api-repository
 phases:
   pre_build:
     commands:
@@ -14,7 +14,7 @@ phases:
       - ECR_IMAGE_URI="${ECR_MAIN_URI}/${ECR_REPO_NAME}:latest"
   build:
     commands:
-      - docker build -t ${ECR_REPO_NAME}:latest .
+      - docker build -t api-repository:latest .
   post_build:
     commands:
       - docker tag ${ECR_REPO_NAME}:latest ${ECR_IMAGE_URI}
