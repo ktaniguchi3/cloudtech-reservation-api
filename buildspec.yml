@@ -11,14 +11,16 @@ phases:
       - ECR_MAIN_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
       - aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_MAIN_URI}
 
-      - ECR_IMAGE_URI="${ECR_MAIN_URI}/${ECR_REPO_NAME}:${CODEBUILD_RESOLVED_SOURCE_VERSION:0:8}"
+      - COMMIT_TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION:0:8}"
+      - ECR_IMAGE_URI="${ECR_MAIN_URI}/${ECR_REPO_NAME}:${COMMIT_TAG}"
   build:
     commands:
-      - docker build -t api-repository:${CODEBUILD_RESOLVED_SOURCE_VERSION:0:8} .
+      - docker build -t ${ECR_REPO_NAME}:${COMMIT_TAG} .
+      - docker tag ${ECR_REPO_NAME}:${COMMIT_TAG} ${ECR_MAIN_URI}/${ECR_REPO_NAME}:latest  # latestタグを追加
   post_build:
     commands:
-      - docker tag ${ECR_REPO_NAME}:${CODEBUILD_RESOLVED_SOURCE_VERSION:0:8} ${ECR_IMAGE_URI}
       - docker push ${ECR_IMAGE_URI}
+      - docker push ${ECR_MAIN_URI}/${ECR_REPO_NAME}:latest  # latestタグをpush
 
       - printf '[{"name":"api-container","imageUri":"%s"}]' ${ECR_IMAGE_URI} > imagedefinitions.json
 #      - printf '{"ImageURI":"%s"}' ${ECR_IMAGE_URI} > imageDetail.json
