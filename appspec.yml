@@ -5,5 +5,5 @@ Resources:
       Properties:
         TaskDefinition: <TASK_DEFINITION>
         LoadBalancerInfo:
-          ContainerName: "cth1-container"
+          ContainerName: "api-container"
           ContainerPort: "80"
