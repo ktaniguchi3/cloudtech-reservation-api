@@ -1,12 +1,12 @@
 {
     "containerDefinitions": [
         {
-            "name": "cth1-container",
-            "image": "<IMAGE1_NAME>",
+            "name": "api-container",
+            "image": "IMAGE1_NAME",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "cth1-container-80-tcp",
+                    "name": "api-container-80-tcp",
                     "containerPort": 80,
                     "hostPort": 80,
                     "protocol": "tcp",
@@ -14,7 +14,12 @@
                 }
             ],
             "essential": true,
-            "environment": [],
+            "environment": [
+                {
+                    "name": "API_PORT",
+                    "value": "80"
+                }
+            ],
             "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
@@ -22,7 +27,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/cth1-task-def",
+                    "awslogs-group": "/ecs/reservation-taskdef",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -34,10 +39,10 @@
             "systemControls": []
         }
     ],
-    "family": "cth1-task-def",
+    "family": "reservation-taskdef",
     "executionRoleArn": "arn:aws:iam::619071352416:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "revision": 2,
+    "revision": 6,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -83,7 +88,6 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2025-04-26T14:21:52.590Z",
-    "registeredBy": "arn:aws:sts::619071352416:assumed-role/AWSCodePipelineServiceRole-ap-northeast-1-cht1-pipeline/1745677312141"
-    
+    "registeredAt": "2025-05-02T14:20:07.384Z",
+    "registeredBy": "arn:aws:sts::619071352416:assumed-role/AWSCodePipelineServiceRole-ap-northeast-1-api-pipeline/1746195607008"
 }
